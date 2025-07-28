@@ -1,6 +1,5 @@
 from fastapi import FastAPI, status
 import uvicorn
-import os
 from fastapi.middleware.cors import CORSMiddleware
 from settings import Settings
 
@@ -11,8 +10,8 @@ app = FastAPI(title=setting.title_project, version=setting.version, debug=settin
 @app.get('/', status_code=status.HTTP_200_OK, include_in_schema=True)
 async def index():
     return {
-        'description': "Application of a forum soccer tournament...",
-        'author': 'Victor Apolinares - Develoment'
+        'description': setting.descripcion_app,
+        'author': setting.author
     }
 
 app.add_middleware(
