@@ -5,7 +5,7 @@ import os
 load_dotenv()
 
 class Settings(BaseSettings):
-    title_project:str = "Tournament Soccer API"
+    title_project:str = 'Tournament Soccer API'
     debug:bool = False
     version:str = '1.0.0'
     descripcion_app:str = 'Application of a forum soccer tournament...'
@@ -16,3 +16,6 @@ class Settings(BaseSettings):
     log_level:str = 'info'
     
     database_url = os.getenv('DATABASE_URL')
+    
+    secret_key:str = 'IMpm6idnZCgvlep1lUnvuBsmey3xqTFd'
+    algorithm:str = 'HS256'
