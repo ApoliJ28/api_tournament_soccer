@@ -14,3 +14,5 @@ class Settings(BaseSettings):
     host:str = os.getenv('HOST')
     port:int = int(os.getenv('PORT'))
     log_level:str = 'info'
+    
+    database_url = os.getenv('DATABASE_URL')
