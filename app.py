@@ -1,12 +1,12 @@
 from fastapi import FastAPI, status
 import uvicorn
-from dotenv import load_dotenv
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from settings import Settings
 
-load_dotenv()
+setting = Settings()
 
-app = FastAPI(debug=True)
+app = FastAPI(title=setting.title_project, version=setting.version, debug=setting.debug)
 
 @app.get('/', status_code=status.HTTP_200_OK, include_in_schema=True)
 async def index():
@@ -25,4 +25,4 @@ app.add_middleware(
 
 if __name__ == '__main__':
     
-    uvicorn.run('app:app',host=os.getenv('HOST'), port=int(os.getenv('PORT')), log_level='info', reload=True)
+    uvicorn.run('app:app',host=setting.host, port=setting.port, log_level=setting.log_level, reload=setting.debug)
