@@ -34,7 +34,7 @@ async def get_user(user: user_dependecy, db:db_dependecy):
             'payload': []
         })
     
-    user_db = db.query(User).filter(User.id == user.get('id')).first()
+    user_db = db.query(User).filter(User.id == user.get('user_id')).first()
     
     if user_db is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={

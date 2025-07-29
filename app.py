@@ -7,7 +7,7 @@ from routes import user, auth
 
 setting = Settings()
 
-app = FastAPI(title=setting.title_project, version=setting.version)
+app = FastAPI(title=setting.title_project, version=setting.version, debug=setting.debug)
 
 app.include_router(auth.router)
 app.include_router(user.router)

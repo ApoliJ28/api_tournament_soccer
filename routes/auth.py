@@ -46,7 +46,7 @@ def authenticate_user(username:str, password:str, db: db_dependecy):
 def create_access_token(username:str, user_id:int, role:str, dni:str, expires_delta:timedelta):
     token_encode = {
         'username': username,
-        'id': user_id,
+        'user_id': user_id,
         'dni': dni,
         'role': role
     }
@@ -61,7 +61,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]) -> dic
         
         payload = jwt.decode(token, setting.secret_key, algorithms=setting.algorithm)
         username = payload.get('username')
-        id = payload.get('id')
+        id = payload.get('user_id')
         dni = payload.get('dni')
         role = payload.get('role')
         
@@ -84,9 +84,14 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]) -> dic
 user_dependecy = Annotated[dict, Depends(get_current_user)]
 
 @router.post('/', status_code=status.HTTP_201_CREATED, include_in_schema=True, response_model=UserSchema)
-async def create_user( db: db_dependecy,  user_body: CreateUserSchema):
+async def create_user(user: user_dependecy, db: db_dependecy,  user_body: CreateUserSchema):
     
-    
+    if user is None or user.get('role') != 'admin':
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail={
+            'message': "User not authorized",
+            'success': False,
+            'payload': []
+        })
     
     user_db = db.query(User).filter( (User.username == user_body.username) | (User.email == user_body.email) | (User.dni == user_body.dni) ).first()
     
@@ -114,7 +119,7 @@ async def create_user( db: db_dependecy,  user_body: CreateUserSchema):
             'payload': []
         })
 
-@router.post('token/form', response_model=TokenSchema, include_in_schema=False)
+@router.post('/token/form', response_model=TokenSchema, include_in_schema=False)
 async def login_for_access_token_form(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db:db_dependecy):
     user=authenticate_user(form_data.username, form_data.password, db)
     if not user:
