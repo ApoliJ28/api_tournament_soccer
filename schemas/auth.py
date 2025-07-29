@@ -1,35 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr
-
-class CreateUserSchema(BaseModel):
-    username: str=Field(min_length=3)
-    email: EmailStr
-    first_name: str
-    last_name: str
-    password: str=Field(min_length=6)
-    role:str
-    
-    class Config:
-        json_schema_extra={
-            'example':{
-                'username': "User Name",
-                'email': "youremail@example.com",
-                'first_name': "You Name",
-                'last_name': "You Last Name",
-                'password': "Paswword",
-                'role': 'admin'
-            }
-        }
-
-class UserSchema(BaseModel):
-    username: str
-    email: EmailStr
-    first_name: str
-    last_name: str
-    role:str
-    
-    class Config:
-        orm_mode = True
-
+from pydantic import BaseModel
 
 class TokenSchema(BaseModel):
     access_token:str

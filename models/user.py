@@ -1,14 +1,9 @@
 from database.db import Base
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum as SqlEnum
 from datetime import datetime
 from sqlalchemy.orm import relationship
 
-class RoleUserEnum(str, Enum):
-    ADMIN:str = "admin" # Administrador del Sistema
-    COACH:str = "coach" # Coach del Equipo
-    PLAYER:str = "player" # Jugador
-    GUEST:str = "guest" # Visita
-    CONFIGURATOR:str = "configurator" # Para torneo/partido creacion edicion y asi
+from enums.user import RoleUserEnum
 
 class User(Base):
     __tablename__ = "users"
@@ -22,6 +17,6 @@ class User(Base):
     last_name:str = Column(String)
     password:str = Column(String)
     is_active:bool = Column(Boolean, default=True)
-    role:enumerate = Column(Enum(RoleUserEnum), default=RoleUserEnum.GUEST)
+    role:enumerate = Column(SqlEnum(RoleUserEnum), default=RoleUserEnum.GUEST)
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)

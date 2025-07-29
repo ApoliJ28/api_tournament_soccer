@@ -7,7 +7,8 @@ from sqlalchemy.orm import Session
 from datetime import timedelta, datetime, timezone
 
 from settings import Settings
-from schemas.auth import CreateUserSchema, UserSchema, TokenSchema, LoginSchema
+from schemas.auth import  TokenSchema, LoginSchema
+from schemas.user import CreateUserSchema, UserSchema
 from models.user import User
 
 setting = Settings()
@@ -91,7 +92,7 @@ async def create_user(db: db_dependecy, user_depen: user_dependecy, user_body: C
             'payload': []
         })
     
-    user_db = db.query(User).filter( (User.username == user_depen.username) | (User.email == user_depen.email) | (User.dni == user_depen.dni) ).first()
+    user_db = db.query(User).filter( (User.username == user_body.username) | (User.email == user_body.email) | (User.dni == user_body.dni) ).first()
     
     if user_db:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={
