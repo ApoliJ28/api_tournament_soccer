@@ -10,6 +10,7 @@ from settings import Settings
 from schemas.auth import  TokenSchema, LoginSchema
 from schemas.user import CreateUserSchema, UserSchema
 from models.user import User
+from database.db import SessionLocal
 
 setting = Settings()
 
@@ -23,7 +24,7 @@ bycrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl=router.prefix+"/token/form")
 
 def get_db():
-    db = Session()
+    db = SessionLocal()
     try:
         yield db
     finally:
@@ -80,17 +81,12 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]) -> dic
                 'payload': []
             })
 
-user_dependecy = Annotated[dict, Depends[get_current_user]]
+user_dependecy = Annotated[dict, Depends(get_current_user)]
 
 @router.post('/', status_code=status.HTTP_201_CREATED, include_in_schema=True, response_model=UserSchema)
-async def create_user(db: db_dependecy, user_depen: user_dependecy, user_body: CreateUserSchema):
+async def create_user( db: db_dependecy,  user_body: CreateUserSchema):
     
-    if user_depen is None or user_depen.get('role') != 'admin':
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail={
-            'message': "User not authorized",
-            'success': False,
-            'payload': []
-        })
+    
     
     user_db = db.query(User).filter( (User.username == user_body.username) | (User.email == user_body.email) | (User.dni == user_body.dni) ).first()
     
@@ -103,7 +99,7 @@ async def create_user(db: db_dependecy, user_depen: user_dependecy, user_body: C
     
     user_body.password = bycrypt_context.hash(user_body.password)
     
-    user = User(**user_body)
+    user = User(**user_body.model_dump(exclude_unset=True))
     
     try:
         db.add(user)

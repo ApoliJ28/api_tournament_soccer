@@ -5,7 +5,7 @@ class TokenSchema(BaseModel):
     token_type:str
     
     class Config:
-        orm_mode = True
+        from_attributes = True
         json_schema_extra={
             'example':{
                 'access_token': 'you_token',

@@ -10,7 +10,7 @@ from schemas.user import UserSchema, UpdateUserSchema, ChangePasswordSchema
 from routes.auth import bycrypt_context
 
 router = APIRouter(
-    prefix='/api/user/',
+    prefix='/api/user',
     tags=['user'],
     include_in_schema=True
 )

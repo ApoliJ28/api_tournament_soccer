@@ -33,7 +33,7 @@ class UserSchema(BaseModel):
     role:RoleUserEnum
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UpdateUserSchema(BaseModel):
     username: Optional[str]=Field(default=None, min_length=3) 
