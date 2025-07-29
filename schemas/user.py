@@ -42,6 +42,7 @@ class UpdateUserSchema(BaseModel):
     first_name: Optional[str]=None
     last_name: Optional[str]=None
     role:Optional[RoleUserEnum]=None
+    is_active:Optional[bool]=None
     
     class Config:
         json_schema_extra={
@@ -51,7 +52,8 @@ class UpdateUserSchema(BaseModel):
                 'email': "youremail@example.com",
                 'first_name': "You Name",
                 'last_name': "You Last Name",
-                'role': 'admin'
+                'role': 'admin',
+                'is_active': True,
             }
         }
 
