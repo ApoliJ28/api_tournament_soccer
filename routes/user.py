@@ -110,5 +110,5 @@ async def change_password(user: user_dependecy, db: db_dependecy, chamge_pass: C
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
     
     user_model.password = bycrypt_context.hash(chamge_pass.new_password)
-    db.add(user_model)
+
     db.commit()
