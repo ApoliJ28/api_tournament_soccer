@@ -94,7 +94,9 @@ async def update_user(user: user_dependecy, db: db_dependecy, id: int, user_updt
 
 @router.put('/change_password', status_code=status.HTTP_204_NO_CONTENT)
 async def change_password(user: user_dependecy, db: db_dependecy, chamge_pass: ChangePasswordSchema = Body(..., examples=ChangePasswordSchema.Config.json_schema_extra['example']), id: Optional[int] = Query(None, description="Id to change the user's password")):
-    if user is None:
+    user_id = user.get('user_id') if id is None else id
+    
+    if user is None or user.get('role') != 'admin' and (user.get('user_id') != user_id and user.get('role') != 'admin'):
         raise HTTPException(status_code= status.HTTP_401_UNAUTHORIZED, detail={
                             'message':"Not authorized.",
                             'data':[],
@@ -102,7 +104,7 @@ async def change_password(user: user_dependecy, db: db_dependecy, chamge_pass: C
                             'error':'Authentication Failed'
                             })
     
-    user_id = user.get('user_id') if id is None else id
+    
     
     user_model = db.query(User).filter(User.id == user_id).first()
     
