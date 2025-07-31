@@ -1,9 +1,10 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Date, ForeignKey, Boolean
 from datetime import datetime, date as dt
 from sqlalchemy.orm import relationship
 
 from database.db import Base
 from enums.match import StatusMatchEnum, MatchEventTypeEnum
+from enums.player import PlayerPositonFutsalEnum
 
 class Match(Base):
     
@@ -41,4 +42,20 @@ class MatchEvent(Base):
     description:str = Column(String(255), nullable=True)
     
     match = relationship("Match", back_populates="events")
+    player = relationship("Player")
+
+class MatchTeamLineup(Base):
+    __tablename__ = "match_team_lineups"
+
+    id:int = Column(Integer, primary_key=True)
+    match_id:int = Column(Integer, ForeignKey("matches.id"))
+    team_id:int = Column(Integer, ForeignKey("teams.id"))
+    player_id:int = Column(Integer, ForeignKey("players.id"))
+    position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum))
+    is_starter:bool = Column(Boolean, default=True)
+    created_datetime:datetime = Column(DateTime, default=datetime.now)
+    updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+    match = relationship("Match", back_populates="team_lineups")
+    team = relationship("Team")
     player = relationship("Player")

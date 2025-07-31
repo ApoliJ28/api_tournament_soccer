@@ -30,7 +30,7 @@ class TeamLineup(Base):
     id:int = Column(Integer, primary_key=True)
     team_id:int = Column(Integer, ForeignKey("teams.id"))
     player_id:int = Column(Integer, ForeignKey("players.id"))
-    position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum), default=PlayerPositonFutsalEnum.FB)
+    position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum))
     is_starter:bool = Column(Boolean, default=True) #Titular o suplente
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
