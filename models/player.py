@@ -22,3 +22,19 @@ class Player(Base):
     
     team = relationship("Team", back_populates="players")
     stats = relationship("PlayerStats", back_populates="player")
+
+class PlayerStats(Base):
+    
+    __tablename__ = "player_stats"
+    
+    id:int = Column(Integer, primary_key=True)
+    player_id = Column(Integer, ForeignKey("players.id"))
+    match_id = Column(Integer, ForeignKey("matches.id"))
+    goals = Column(Integer, default=0)
+    assist = Column(Integer, default=0)
+    yellow_cards = Column(Integer, default=0)
+    red_cards = Column(Integer, default=0)
+    minutes_played = Column(Integer, default=0)
+    
+    player = relationship("Player", back_populates="stats")
+    match = relationship("Match", back_populates="player_stats")
