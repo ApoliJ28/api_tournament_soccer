@@ -16,7 +16,7 @@ class Player(Base):
     photo_url:str = Column(String(500), nullable=True)
     birth_date:date = Column(Date)
     position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum), default=PlayerPositonFutsalEnum.FB)
-    team_id = Column(Integer, ForeignKey("teams.id"), nullable=True)
+    team_id:int = Column(Integer, ForeignKey("teams.id"), nullable=True)
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
