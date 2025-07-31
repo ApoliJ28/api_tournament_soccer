@@ -57,8 +57,6 @@ class TournamentStanding(Base):
     goals_for:int = Column(Integer, default=0)
     goals_againt:int = Column(Integer, default=0)
     goal_difference:int = Column(Integer, default=0)
-    created_datetime:datetime = Column(DateTime, default=datetime.now)
-    updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
     tournament = relationship("Tournament", back_populates="standings")
     team = relationship("Team")

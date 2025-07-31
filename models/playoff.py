@@ -12,8 +12,6 @@ class Playoff(Base):
     id:int = Column(Integer, primary_key=True, index=True)
     tournament_id:int = Column(Integer, ForeignKey("tournaments.id"))
     round_name = Column(SqlEnum(TypePlayOffsEnum), default=TypePlayOffsEnum.ROUND_OF_32)
-    created_datetime:datetime = Column(DateTime, default=datetime.now)
-    updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
     tournament = relationship("Tournament", back_populates="playoffs")
     matches = relationship("Match", back_populates="playoff")

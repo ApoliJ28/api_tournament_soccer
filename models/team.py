@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Boolean, ForeignKey
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy.orm import relationship
 
 from database.db import Base
@@ -23,7 +23,7 @@ class Team(Base):
 
 # TeamLineupFutsal: alineación general del equipo FUTSAL
 
-class TeamLineupFutsal(Base):
+class TeamLineup(Base):
     
     __tablename__ = "team_lineups"
     
