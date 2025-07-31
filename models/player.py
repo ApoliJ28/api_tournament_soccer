@@ -38,3 +38,14 @@ class PlayerStats(Base):
     
     player = relationship("Player", back_populates="stats")
     match = relationship("Match", back_populates="player_stats")
+
+class PlayerAward(Base):
+    __tablename__ = "player_awards"
+
+    id:int = Column(Integer, primary_key=True, index=True)
+    player_id:int = Column(Integer, ForeignKey("players.id"))
+    award_id:int = Column(Integer, ForeignKey("awards.id"))
+    date_awarded:datetime = Column(DateTime, default=datetime.now)
+
+    player = relationship("Player")
+    award = relationship("Award", back_populates="player_awards")
