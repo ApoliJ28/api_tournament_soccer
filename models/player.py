@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Enum as SqlEnum, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Date, ForeignKey
 from datetime import datetime, date
 from sqlalchemy.orm import relationship
 
@@ -17,6 +17,8 @@ class Player(Base):
     birth_date:date = Column(Date)
     position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum), default=PlayerPositonFutsalEnum.FB)
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=True)
+    created_datetime:datetime = Column(DateTime, default=datetime.now)
+    updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
     team = relationship("Team", back_populates="players")
     stats = relationship("PlayerStats", back_populates="player")
