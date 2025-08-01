@@ -49,7 +49,6 @@ class TournamentStanding(Base):
     id:int = Column(Integer, primary_key=True, index=True)
     tournament_id:int = Column(Integer, ForeignKey("tournament.id"))
     team_id:int = Column(Integer, ForeignKey("teams.id"))
-    # points:int = Column(Integer, default=0)
     played:int = Column(Integer, default=0)
     wins:int = Column(Integer, default=0)
     draws:int = Column(Integer, default=0)
