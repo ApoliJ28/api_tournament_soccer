@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
+from sqlalchemy.dialects.postgresql import ENUM
 from datetime import datetime
 from sqlalchemy.orm import relationship
 
@@ -30,7 +31,7 @@ class TeamLineup(Base):
     id:int = Column(Integer, primary_key=True)
     team_id:int = Column(Integer, ForeignKey("teams.id"))
     player_id:int = Column(Integer, ForeignKey("players.id"))
-    position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum))
+    position:enumerate = Column(ENUM(PlayerPositonFutsalEnum, name="playerpositionfutsalenum", create_type=False))
     is_starter:bool = Column(Boolean, default=True) #Titular o suplente
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)

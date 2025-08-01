@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, Enum as SqlEnum, ForeignKey
+from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.orm import relationship
 
 from database.db import Base
@@ -10,7 +11,7 @@ class Playoff(Base):
     
     id:int = Column(Integer, primary_key=True, index=True)
     tournament_id:int = Column(Integer, ForeignKey("tournaments.id"))
-    round_name = Column(SqlEnum(TypePlayOffsEnum), default=TypePlayOffsEnum.ROUND_OF_32)
+    round_name = Column(ENUM(TypePlayOffsEnum, name="typeplayoffenum", create_type=False), default=TypePlayOffsEnum.ROUND_OF_32)
     
     tournament = relationship("Tournament", back_populates="playoffs")
     matches = relationship("Match", back_populates="playoff")

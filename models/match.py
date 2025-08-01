@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Date, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey, Boolean
+from sqlalchemy.dialects.postgresql import ENUM
 from datetime import datetime, date as dt
 from sqlalchemy.orm import relationship
 
@@ -18,7 +19,7 @@ class Match(Base):
     away_team_id:int = Column(Integer, ForeignKey("teams.id"), nullable=True)
     home_team_score:int = Column(Integer, default=0)
     away_team_score:int = Column(Integer, default=0)
-    status:enumerate = Column(SqlEnum(StatusMatchEnum), default=StatusMatchEnum.PLANNED)
+    status:enumerate = Column(ENUM(StatusMatchEnum, name="statusmatchenum", create_type=False), default=StatusMatchEnum.PLANNED)
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
     
@@ -37,7 +38,7 @@ class MatchEvent(Base):
     id:int = Column(Integer, primary_key=True, index=True)
     match_id:int = Column(Integer, ForeignKey("matches.id"))
     player_id:int = Column(Integer, ForeignKey("players.id"))
-    event_type:enumerate = Column(SqlEnum(MatchEventTypeEnum))
+    event_type:enumerate = Column(ENUM(MatchEventTypeEnum, name="matcheventypeenum", create_type=False))
     minute:int = Column(Integer)
     description:str = Column(String(255), nullable=True)
     
@@ -51,7 +52,7 @@ class MatchTeamLineup(Base):
     match_id:int = Column(Integer, ForeignKey("matches.id"))
     team_id:int = Column(Integer, ForeignKey("teams.id"))
     player_id:int = Column(Integer, ForeignKey("players.id"))
-    position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum))
+    position:enumerate = Column(ENUM(PlayerPositonFutsalEnum, name="playerpositionfutsalenum", create_type=False))
     is_starter:bool = Column(Boolean, default=True)
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)

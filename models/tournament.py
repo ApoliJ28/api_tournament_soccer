@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Date, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey, Boolean
+from sqlalchemy.dialects.postgresql import ENUM
 from datetime import datetime, date
 from sqlalchemy.orm import relationship
 
@@ -29,12 +30,12 @@ class TournamentConfig(Base):
     __tablename__ = "tournament_configs"
     
     id:int = Column(Integer, primary_key=True)
-    tournament_id:int = Column(Integer, ForeignKey("tournament.id"))
+    tournament_id:int = Column(Integer, ForeignKey("tournaments.id"))
     allow_draws:bool = Column(Boolean, default=True)
     points_win:int = Column(Integer, default=3)
     points_draw:int = Column(Integer, default=1)
     points_loss:int = Column(Integer, default=0)
-    tie_break_rule:enumerate = Column(SqlEnum(TieBreakerRuleEnum), TieBreakerRuleEnum.GOAL_DIFFERENCE)
+    tie_break_rule:enumerate = Column(ENUM(TieBreakerRuleEnum, name="tiebreakruleenum", create_type=False), default=TieBreakerRuleEnum.GOAL_DIFFERENCE)
     group_size:int = Column(Integer, nullable=True)
     advance_teams_per_group:int = Column(Integer, nullable=True)
     created_datetime:datetime = Column(DateTime, default=datetime.now)
@@ -47,7 +48,7 @@ class TournamentStanding(Base):
     __tablename__ = "tournament_standings"
     
     id:int = Column(Integer, primary_key=True, index=True)
-    tournament_id:int = Column(Integer, ForeignKey("tournament.id"))
+    tournament_id:int = Column(Integer, ForeignKey("tournaments.id"))
     team_id:int = Column(Integer, ForeignKey("teams.id"))
     played:int = Column(Integer, default=0)
     wins:int = Column(Integer, default=0)

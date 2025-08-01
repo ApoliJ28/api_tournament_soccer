@@ -20,6 +20,16 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from models.user import User
+from models.tournament import Tournament, TournamentConfig, TournamentStanding
+from models.team import Team, TeamLineup
+from models.playoff import Playoff
+from models.player import Player, PlayerAward, PlayerStats
+from models.match import Match, MatchEvent, MatchTeamLineup
+from models.group import Group, GroupStanding
+from models.coach import Coach
+from models.award import Award
+from models.audit_log import AuditLog
+
 
 from database.db import Base
 from settings import Settings

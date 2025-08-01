@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum as SqlEnum, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Date, ForeignKey
+from sqlalchemy.dialects.postgresql import ENUM
 from datetime import datetime, date
 from sqlalchemy.orm import relationship
 
@@ -12,10 +13,10 @@ class Player(Base):
     id:int = Column(Integer, primary_key=True, index=True)
     first_name:str = Column(String(150))
     last_name:str = Column(String(150))
-    dni:str = Column(String(30), unique=True, Index=True)
+    dni:str = Column(String(30), unique=True, index=True)
     photo_url:str = Column(String(500), nullable=True)
     birth_date:date = Column(Date)
-    position:enumerate = Column(SqlEnum(PlayerPositonFutsalEnum), default=PlayerPositonFutsalEnum.FB)
+    position:enumerate = Column(ENUM(PlayerPositonFutsalEnum, name="playerpositionfutsalenum", create_type=False), default=PlayerPositonFutsalEnum.FB)
     team_id:int = Column(Integer, ForeignKey("teams.id"), nullable=True)
     created_datetime:datetime = Column(DateTime, default=datetime.now)
     updated_datetime:datetime = Column(DateTime, default=datetime.now, onupdate=datetime.now)
