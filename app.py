@@ -3,7 +3,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
 from settings import Settings
-from routes import user, auth
+from routes import user, auth, coach
 
 setting = Settings()
 
@@ -11,6 +11,7 @@ app = FastAPI(title=setting.title_project, version=setting.version, debug=settin
 
 app.include_router(auth.router)
 app.include_router(user.router)
+app.include_router(coach.router)
 
 @app.get('/', status_code=status.HTTP_200_OK, include_in_schema=True)
 async def index():

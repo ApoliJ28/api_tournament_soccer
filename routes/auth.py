@@ -108,16 +108,18 @@ async def create_user(user: user_dependecy, db: db_dependecy,  user_body: Create
     
     try:
         db.add(user)
-        db.commit()
-        
-        return user
         
     except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={
             'message': f"User not created, error: {e}",
             'success': False,
             'payload': []
         })
+    else:
+        db.commit()
+        
+        return user
 
 @router.post('/token/form', response_model=TokenSchema, include_in_schema=False)
 async def login_for_access_token_form(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db:db_dependecy):
