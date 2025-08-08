@@ -8,10 +8,9 @@ from models.coach import Coach
 from models.team import Team
 from schemas.coach import CoachSchema, UpdateCoachSchema
 from schemas.common import PaginatedResponse
-from routes.auth import bycrypt_context
 
 router = APIRouter(
-    prefix='api/coach',
+    prefix='/api/coach',
     tags=['coach'],
     include_in_schema=True
 )
@@ -80,7 +79,6 @@ async def get_coachs(user: user_dependecy, db:db_dependecy,
         limit=limit,
         total=total,
         page=page,
-        limit=limit,
         pages=pages,
         payload=items
     )
@@ -123,7 +121,7 @@ async def created_coach(
         
         return coach
 
-@router.path("/{id}", status_code=status.HTTP_204_NO_CONTENT, response_model=CoachSchema)
+@router.patch("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def updated_coach(
             user: user_dependecy, db:db_dependecy,
             id:int,
@@ -140,7 +138,7 @@ async def updated_coach(
     
     coach_db = db.query(Coach).filter(Coach.id == id).first()
     
-    if coach_db:
+    if not coach_db:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail={
             'message': "Coach not found.",
             'success': False,

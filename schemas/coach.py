@@ -16,7 +16,7 @@ class CoachSchema(BaseModel):
                 "first_name": "Jackson",
                 "last_name": "Lopez",
                 "dni": "20564896",
-                "photo_url": "C:\Users\FINANZAS01\Documents\workspace\apoli\api_torneo_forum_backend\schemas\static\img\photo.png",
+                "photo_url": r"C:\Users\FINANZAS01\Documents\workspace\apoli\api_torneo_forum_backend\schemas\static\img\photo.png",
                 "birth_date": "1989-06-25"
             }
         }
@@ -34,7 +34,7 @@ class UpdateCoachSchema(BaseModel):
                 "first_name": "Jose",
                 "last_name": "Lopez",
                 "dni": "20564896",
-                "photo_url": "C:\Users\FINANZAS01\Documents\workspace\apoli\api_torneo_forum_backend\schemas\static\img\photo.png",
+                "photo_url": r"C:\Users\FINANZAS01\Documents\workspace\apoli\api_torneo_forum_backend\schemas\static\img\photo.png",
                 "birth_date": "1989-06-25"
             }
         }

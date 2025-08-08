@@ -11,7 +11,7 @@ class Group(Base):
     name:str = Column(String(50))
 
     tournament = relationship("Tournament", back_populates="groups")
-    stagings = relationship("GroupStanding", back_populates="group")
+    standings = relationship("GroupStanding", back_populates="group")
     matches = relationship("Match", back_populates="group")
 
 class GroupStanding(Base):
